@@ -67,9 +67,9 @@ public class PathFinder {
 	}
 
 	
-	public static void findPath(String tCase, int x, int y, int startX, int startY, int endX, int endY, int[][] wall){
+	public static void findPath(String tCase, int x, int y, int startX, int startY, int endX, int endY, int[][] wall, int[][] road, int[][] mood){
 		System.out.println("********************Start*********************");
-		System.out.println("********************"+tCase+"*********************");
+		System.out.println(tCase);
 		System.out.println("================================================");
 		
 		grid = new Node[x][y];
@@ -90,7 +90,9 @@ public class PathFinder {
 			for (int j = 0; j < y; ++j){
 				grid[i][j] = new Node(i, j);
 				grid[i][j].hCost = Math.abs(i-endX)+Math.abs(j-endY);
-				System.out.printf("%-3d ", grid[i][j].hCost);
+				if (i==startX && j==startY) System.out.print("$  ");
+				else if (i==endX && j==endY) System.out.print("E  ");
+				else if (grid[i][j]!=null) System.out.printf("%-3d", grid[i][j].hCost);
 			}
 			System.out.println();
 		}
@@ -102,14 +104,23 @@ public class PathFinder {
 		for (int i = 0; i < wall.length; ++i){
 			Map.setWall(wall[i][0], wall[i][1]);
 		}
+		
+		for (int i = 0; i < road.length; ++i){
+			Map.setRoad(road[i][0], road[i][1]);
+		}
+		
+		for (int i = 0; i < mood.length; ++i){
+			Map.setMood(mood[i][0], mood[i][1]);
+		}
+		
 		System.out.println("================================================");
 		System.out.println("Siatka: ");
 		for (int i = 0; i < x; ++i){
 			for (int j = 0; j < y; ++j){
-				if (i==startX && j==startY) System.out.print("S   ");
-				else if (i==endX && j==endY) System.out.print("E   ");
-				else if (grid[i][j]!=null) System.out.printf("%-3d ", 0);
-				else System.out.print("[]  ");
+				if (i==startX && j==startY) System.out.print("S  ");
+				else if (i==endX && j==endY) System.out.print("E  ");
+				else if (grid[i][j]!=null) System.out.print(grid[i][j].type+"  ");
+				else System.out.print("W  ");
 			}
 			System.out.println();
 		}
@@ -120,7 +131,7 @@ public class PathFinder {
 		aStar();
 		System.out.println("Koszty ruchów");
 		for (int i = 0; i < x; ++i){
-			for (int j = 0; j < x; ++j){
+			for (int j = 0; j < y; ++j){
 					if(grid[i][j]!=null)System.out.printf("%-3d ", grid[i][j].fCost);
 					else System.out.print("[]  ");
 				}
@@ -131,12 +142,16 @@ public class PathFinder {
 		
 		if(Map.isClosed[endX][endY]){
 			System.out.println("Œcie¿ka: ");
-			Node current = grid[endX][endY];
+			Node current = grid[endX][endY];		
 			System.out.print(current);
+			int steps = 0;
 			while(current.parent!=null){
-				System.out.print(" ->"+current.parent);
-				current = current.parent;
+				steps++;
+				System.out.print(" -> "+current.parent);
+				current = current.parent;	
 			}
+			System.out.println();
+			System.out.println("Liczba kroków: " +steps);
 			System.out.println();
 		}
 		else System.out.println("Nie ma mo¿liwej œcie¿ki");
