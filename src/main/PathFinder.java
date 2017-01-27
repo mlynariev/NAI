@@ -68,7 +68,9 @@ public class PathFinder {
 
 	
 	public static void findPath(String tCase, int x, int y, int startX, int startY, int endX, int endY, int[][] wall){
-		System.out.println("\n "+tCase);
+		System.out.println("********************Start*********************");
+		System.out.println("********************"+tCase+"*********************");
+		System.out.println("================================================");
 		
 		grid = new Node[x][y];
 		Map.isClosed = new boolean[x][y];
@@ -83,21 +85,24 @@ public class PathFinder {
 		Map.setStartNode(startX, startY);
 		Map.setEndNode(endX, endY);
 		
+		System.out.println("Koszty heurystyki");
 		for (int i = 0; i < x; ++i){
 			for (int j = 0; j < y; ++j){
 				grid[i][j] = new Node(i, j);
-				grid[i][j].hCost = 10*(Math.abs(i-endX)+Math.abs(j-endY));
+				grid[i][j].hCost = Math.abs(i-endX)+Math.abs(j-endY);
 				System.out.printf("%-3d ", grid[i][j].hCost);
 			}
 			System.out.println();
 		}
+		System.out.println("================================================");
+		System.out.println();
 		
 		grid[startX][startY].fCost = 0;
 		
 		for (int i = 0; i < wall.length; ++i){
 			Map.setWall(wall[i][0], wall[i][1]);
 		}
-		
+		System.out.println("================================================");
 		System.out.println("Siatka: ");
 		for (int i = 0; i < x; ++i){
 			for (int j = 0; j < y; ++j){
@@ -108,7 +113,9 @@ public class PathFinder {
 			}
 			System.out.println();
 		}
+		System.out.println("================================================");
 		System.out.println();
+		System.out.println("================================================");
 		
 		aStar();
 		System.out.println("Koszty ruchów");
@@ -119,6 +126,7 @@ public class PathFinder {
 				}
 			System.out.println();
 			}
+		System.out.println("================================================");
 		System.out.println();
 		
 		if(Map.isClosed[endX][endY]){
@@ -132,5 +140,9 @@ public class PathFinder {
 			System.out.println();
 		}
 		else System.out.println("Nie ma mo¿liwej œcie¿ki");
+		
+		System.out.println("********************Koniec********************");
+		System.out.println();
 	}
+	
 }

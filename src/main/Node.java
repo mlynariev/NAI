@@ -4,7 +4,8 @@ public class Node{
 	public int x;
 	public int y;
 	int hCost = 0;
-	int fCost = 0;
+	int mCost = 0;
+	int fCost;
 	Node parent;
 	
 	Node(int x, int y){
