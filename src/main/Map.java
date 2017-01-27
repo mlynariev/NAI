@@ -1,18 +1,13 @@
 package main;
 
-import java.util.PriorityQueue;
-
 public class Map {
 
 	static int startX, startY;
 	static int endX, endY;
-	static Node [][] map = new Node[5][5];
 	static boolean isClosed[][] = null;
 	
-	static PriorityQueue<Node> open;
-	
 	public static void setWall(int x, int y){
-		map[x][y] = null;
+		PathFinder.grid[x][y] = null;
 	}
 	
 	public static void setStartNode(int x, int y){
@@ -29,11 +24,11 @@ public class Map {
     if(n == null || isClosed[n.x][n.y])return;
     int n_final_cost = n.hCost+cost;
     
-    boolean inOpen = open.contains(n);
+    boolean inOpen = PathFinder.open.contains(n);
     if(!inOpen || n_final_cost<n.fCost){
         n.fCost = n_final_cost;
         n.parent = current;
-        if(!inOpen)open.add(n);
+        if(!inOpen)PathFinder.open.add(n);
     }
 	}
 }
