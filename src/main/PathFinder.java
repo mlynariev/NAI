@@ -6,6 +6,10 @@ public class PathFinder {
 	public static final int DIAGONAL_COST = 14;
 	public static final int BEELINE_COST = 10;
 	
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_RED = "\u001B[31m";
+	public static final String ANSI_GREEN = "\u001B[32m";
+	
 	public static Node[][] grid = new Node[5][5];
 	static PriorityQueue<Node> open;
 	
@@ -132,8 +136,16 @@ public class PathFinder {
 		System.out.println("Koszty ruchów");
 		for (int i = 0; i < x; ++i){
 			for (int j = 0; j < y; ++j){
-					if(grid[i][j]!=null)System.out.printf("%-3d ", grid[i][j].fCost);
-					else System.out.print("[]  ");
+					
+					
+					if(grid[i][j]!=null){
+						switch(grid[i][j].type){
+						case "M": System.out.printf("-%-5d", grid[i][j].fCost); break;
+						case "R": System.out.printf("+%-5d", grid[i][j].fCost); break;
+						case "F": System.out.printf("=%-5d", grid[i][j].fCost); break;
+						}
+					}
+					else System.out.printf("[]    ");
 				}
 			System.out.println();
 			}
